@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class MessageList extends Component {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired
-  };
+const MessageList = (props) => {
+  return (
+    <ul className="message-list">
+      {props.messages.map((message, index) => (
+        <li
+          key={index}
+          className={
+            message.username === props.user.username ? 'message sender' : 'message recipient'
+          }
+        >
+          <p>{`${message.username}: ${message.text}`}</p>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
-  render() {
-    return (
-      <ul className="message-list">
-        {this.props.messages.map((message, index) => (
-          <li
-            key={index}
-            className={
-              message.username === this.props.user.username ? 'message sender' : 'message recipient'
-            }
-          >
-            <p>{`${message.username}: ${message.text}`}</p>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
+MessageList.propTypes = {
+  user: PropTypes.object.isRequired,
+  messages: PropTypes.array.isRequired
+};
 
 export default MessageList;

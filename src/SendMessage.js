@@ -7,22 +7,25 @@ class SendMessage extends Component {
   };
 
   state = {
-    text: ''
+    message: ''
   };
 
   handleChange = (event) => {
     this.setState({
-      text: event.target.value
+      message: event.target.value
     })
   }
 
   isDisabled = () => {
-    return this.state.text === '' ;
+    return this.state.message === '' ;
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSend(this.state);
+    this.props.onSend(this.state.message);
+    this.setState({
+      message: ''
+    });
   }
 
   render() {
@@ -33,7 +36,7 @@ class SendMessage extends Component {
             type="text"
             className="form-control"
             placeholder="Enter your message..."
-            value={this.state.text}
+            value={this.state.message}
             onChange={this.handleChange}
           />
           <div className="input-group-append">

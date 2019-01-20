@@ -12,10 +12,24 @@ The instructions are included in the `instructions.md` file.
 const users = [{ username: 'Amy' }, { username: 'John' }];
 
 class App extends Component {
-  /*
-  If the user did not type anything, he/she should not be
-  allowed to submit.
-  */
+  state = {
+    messages : [
+      { username: 'Amy', text: 'Hi, Jon!' },
+      { username: 'Amy', text: 'How are you?' },
+      { username: 'John', text: 'Hi, Amy! Good, you?' },
+    ]
+  };
+
+  handleSend = (username, message) => {
+    const messageObject = {
+      username: username,
+      text: message
+    };
+    
+    this.setState((currentState) => ({
+      messages: [...currentState.messages, messageObject]
+    }));
+  };
 
   render() {
     return (
@@ -25,7 +39,14 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <div className="container">
-          <ChatWindow users={users} />
+          {users.map((user) => (
+            <ChatWindow
+              key={user.username}
+              user={user}
+              messages={this.state.messages}
+              onSend={this.handleSend}
+            />
+          ))}
         </div>
       </div>
     );

@@ -1,41 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import MessageList from './MessageList';
 import SendMessage from './SendMessage';
 
-class ChatWindow extends Component {
-  static propTypes = {
-    users: PropTypes.array.isRequired
+const ChatWindow = (props) => {
+  const handleSend = message => {
+    props.onSend(props.user.username, message);
   };
 
-  state = {
-    messages : [
-      { username: 'Amy', text: 'Hi, Jon!' },
-      { username: 'Amy', text: 'How are you?' },
-      { username: 'John', text: 'Hi, Amy! Good, you?' },
-    ]
-  }
-
-  handleSend = (message) => {
-    this.setState((currentState) => ({
-      messages: [...currentState.messages, message ]
-    }));
-  }
-
-  render() {
-    return (
-      <div>
-        {this.props.users.map(user => (
-          <div className="chat-window">
-            <h2>Super Awesome Chat</h2>
-            <div className="name sender">{user.username}</div>
-            <MessageList user={user} messages={this.state.messages}/>
-            <SendMessage onSend={this.handleSend} />
-          </div>
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div className="chat-window">
+      <h2>Super Awesome Chat</h2>
+      <div className="name sender">{props.user.username}</div>
+      <MessageList user={props.user} messages={props.messages}/>
+      <SendMessage onSend={handleSend} />
+    </div>
+  );
 }
+
+ChatWindow.propTypes = {
+  user: PropTypes.object.isRequired,
+  messages: PropTypes.array.isRequired,
+  onSend: PropTypes.func.isRequired
+};
 
 export default ChatWindow;
